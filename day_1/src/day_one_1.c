@@ -4,11 +4,11 @@
 #include "stb_ds.h"
 
 typedef struct {
-    int key;
-    char value;
-} rotation;
+    char dir;
+    int value;
+} Entry;
 
-int read_input(rotation **rot)
+int read_input(Entry **entries)
 {
     FILE *f = fopen("../input.txt", "r");
     if(!f) {
@@ -20,7 +20,8 @@ int read_input(rotation **rot)
     int value;
 
     while(fscanf(f, " %c%d", &dir, &value) == 2) {
-        hmput(*rot, value, dir);
+        Entry e = {dir, value};
+        arrput(*entries, e);
     }
 
     fclose(f);
@@ -29,26 +30,15 @@ int read_input(rotation **rot)
 
 int main(void)
 {
-    rotation *rotations = NULL;
+    Entry *entries = NULL;
 
-    read_input(&rotations);
-    /*hmput(rotations, 68, 'L');
-    hmput(rotations, 30, 'L');
-    hmput(rotations, 48, 'R');
-    hmput(rotations, 5, 'L');
-    hmput(rotations, 60, 'R');
-    hmput(rotations, 55, 'L');
-    hmput(rotations, 1, 'L');
-    hmput(rotations, 99, 'L');
-    hmput(rotations, 14, 'R');
-    hmput(rotations, 82, 'L');*/
-
+    read_input(&entries);
 
     int start_value = 50;
     int counter = 0;
-    for (int i = 0; i < hmlen(rotations); ++i) {
-        if(rotations[i].value == 'R') {
-            start_value += rotations[i].key;
+    for (int i = 0; i < hmlen(entries); ++i) {
+        if(entries[i].dir == 'R') {
+            start_value += entries[i].value;
             if(start_value > 99) {
                 start_value = (start_value % 99)-1;
             }
@@ -57,8 +47,8 @@ int main(void)
             }
             printf("value: %d\n", start_value);
         }
-        if(rotations[i].value == 'L') {
-            start_value -= rotations[i].key;
+        if(entries[i].dir == 'L') {
+            start_value -= entries[i].value;
             if(start_value < 0) {
                 start_value = ((start_value % 99) + 99)+1;
             }
