@@ -23,8 +23,30 @@ int main(void)
     hmput(rotations, 14, 'R');
     hmput(rotations, 82, 'L');
 
-    for (int i = 0; i < hmlen(rotations); ++i)
-    {
-        printf("key: %d, value: %c\n", rotations[i].key, rotations[i].value);
+    int start_value = 50;
+    int counter = 0;
+    for (int i = 0; i < hmlen(rotations); ++i) {
+        //printf("key: %d, value: %c\n", rotations[i].key, rotations[i].value);
+        if(rotations[i].value == 'R') {
+            start_value += rotations[i].key;
+            if(start_value > 99) {
+                start_value = (start_value%99)-1;
+            }
+            if(start_value == 0) {
+                counter += 1;
+            }
+            printf("value: %d\n", start_value);
+        }
+        if(rotations[i].value == 'L') {
+            start_value -= rotations[i].key;
+            if(start_value < 0) {
+                start_value = ((start_value % 99) + 99)+1;
+            }
+            if(start_value == 0) {
+                counter += 1;
+            }
+            printf("value: %d\n", start_value);
+        }
     }
+    printf("zeros: %d\n", counter);
 }
