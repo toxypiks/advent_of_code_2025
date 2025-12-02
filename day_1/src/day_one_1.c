@@ -3,16 +3,36 @@
 #define STB_DS_IMPLEMENTATION
 #include "stb_ds.h"
 
-struct {
+typedef struct {
     int key;
     char value;
-} *rotations;
+} rotation;
+
+int read_input(rotation **rot)
+{
+    FILE *f = fopen("../input.txt", "r");
+    if(!f) {
+        perror("Could not open file");
+        return 1;
+    }
+
+    char dir;
+    int value;
+
+    while(fscanf(f, " %c%d", &dir, &value) == 2) {
+        hmput(*rot, value, dir);
+    }
+
+    fclose(f);
+    return 0;
+}
 
 int main(void)
 {
-    printf("Hello from main\n");
+    rotation *rotations = NULL;
 
-    hmput(rotations, 68, 'L');
+    read_input(&rotations);
+    /*hmput(rotations, 68, 'L');
     hmput(rotations, 30, 'L');
     hmput(rotations, 48, 'R');
     hmput(rotations, 5, 'L');
@@ -21,16 +41,16 @@ int main(void)
     hmput(rotations, 1, 'L');
     hmput(rotations, 99, 'L');
     hmput(rotations, 14, 'R');
-    hmput(rotations, 82, 'L');
+    hmput(rotations, 82, 'L');*/
+
 
     int start_value = 50;
     int counter = 0;
     for (int i = 0; i < hmlen(rotations); ++i) {
-        //printf("key: %d, value: %c\n", rotations[i].key, rotations[i].value);
         if(rotations[i].value == 'R') {
             start_value += rotations[i].key;
             if(start_value > 99) {
-                start_value = (start_value%99)-1;
+                start_value = (start_value % 99)-1;
             }
             if(start_value == 0) {
                 counter += 1;
