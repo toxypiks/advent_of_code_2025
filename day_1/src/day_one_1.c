@@ -36,7 +36,7 @@ int main(void)
 
     int start_value = 50;
     int counter = 0;
-    for (int i = 0; i < hmlen(entries); ++i) {
+    for (int i = 0; i < arrlen(entries); ++i) {
         if(entries[i].dir == 'R') {
             start_value += entries[i].value;
             if(start_value > 99) {
