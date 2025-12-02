@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.16)
+project(advent_of_code)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include_directories(include)
+
+set(DAY_ONE_1_SRC
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/day_one_1.c
+)
+
+add_executable(day_one_1)
+target_sources(day_one_1
+ PRIVATE
+  ${DAY_ONE_1_SRC}
+)
